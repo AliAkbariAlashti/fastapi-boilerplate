@@ -6,6 +6,7 @@ services:
     volumes:
       - ./app:/app/app         # hot-reload source
       - ./tests:/app/tests
+      - ./migrations:/app/migrations
     environment:
       ENVIRONMENT: development
       DEBUG: "true"

@@ -25,14 +25,20 @@ format:
 
 # ── Database ──────────────────────────────────────────────────────────────────
 migrate:
-	docker compose run --rm api alembic upgrade head -d
+	docker compose exec -T api alembic upgrade head
 
 migrate-new:
 	@read -p "Migration message: " msg; \
-	docker compose run --rm api alembic revision --autogenerate -m "$$msg"
+	docker compose exec -T api alembic revision --autogenerate -m "$$msg"
 
 migrate-down:
-	docker compose run --rm api alembic downgrade -1
+	docker compose exec -T api alembic downgrade -1
+
+alembic-new:
+	docker exec api alembic revision --autogenerate -m "initial"
+
+alembic-upgrade:
+	docker exec api alembic upgrade head
 
 # ── Utilities ─────────────────────────────────────────────────────────────────
 shell:
@@ -48,3 +54,4 @@ logs:
 install:
 	pip install uv && uv pip install -e ".[dev]"
 	pre-commit install
+
