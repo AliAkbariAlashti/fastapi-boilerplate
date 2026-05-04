@@ -1,0 +1,14 @@
+services:
+  api:
+    build:
+      target: dev      # dev stage: has PATH set + dev deps installed
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./app:/app/app         # hot-reload source
+      - ./tests:/app/tests
+    environment:
+      ENVIRONMENT: development
+      DEBUG: "true"
+    ports:
+      - "8000:8000"
+      - "5678:5678"            # debugpy port
